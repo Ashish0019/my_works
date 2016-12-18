@@ -9,47 +9,57 @@
  */
 angular.module('sampleTestApp')
   .controller('WorkCtrl', function ($scope) {
-    $scope.numberSlider = {
-		options: {
-	        floor: 0,
-	        ceil: 100
+  	var work = this;
+  	var randomNum, result;
+  work.myChangeListener = function(sliderId) {
+	switch(sliderId) {
+		case 'sliderA':
+			valueChange(work[sliderId].value);
+			work.sliderB.value = randomNum;
+			work.sliderC.value = result - randomNum;
+			$scope.data = [work.sliderA.value, work.sliderB.value, work.sliderC.value];
+			break;
+		case 'sliderB':
+			valueChange(work[sliderId].value);
+			work.sliderA.value = randomNum;
+			work.sliderC.value = result - randomNum;
+			$scope.data = [work.sliderA.value, work.sliderB.value, work.sliderC.value];
+			break;
+		case 'sliderC':
+			valueChange(work[sliderId].value);
+			work.sliderB.value = randomNum;
+			work.sliderA.value = result - randomNum;
+			$scope.data = [work.sliderA.value, work.sliderB.value, work.sliderC.value];
+			break;
+	}
+  };
+  	work.sliderA = {
+	    value: 30,
+	    options: {
+	      floor: 0,
+	      ceil: 100,
+	      id: 'sliderA',
+	      onChange: work.myChangeListener
 	    }
 	};
-	// default values
-    $scope.val1 = 30;
-    $scope.val2 = 50;
-    $scope.val3 = 20; 
-    $scope.slider1Active = false;
-    $scope.slider2Active = false;
-    $scope.slider3Active = false; 
-    var randomNum, result;
-    $scope.$watch('val1',function(newVal, oldval){
-    	
-    	if(newVal !== oldval) {
-	    	valueChange(newVal);
-	    	$scope.val2 = randomNum;
-	    	$scope.val3 = result - randomNum;
-		}
-		$scope.data = [$scope.val1, $scope.val2, $scope.val3];
-    }, true); 
-    $scope.$watch('val2',function(newVal,oldval){
-    	// if(newVal !== oldval) {
-	    // 	valueChange(newVal);
-	    // 	$scope.val1 = randomNum;
-	    // 	$scope.val3 = result - randomNum;
-	    // }
-    	$scope.data = [$scope.val1, $scope.val2, $scope.val3];
-    }, true); 
-    $scope.$watch('val3',function(newVal,oldval){
-    	// if(newVal !== oldval) {
-	    // 	valueChange(newVal);
-	    // 	$scope.val1 = randomNum;
-	    // 	$scope.val2 = result - randomNum;
-	    // }
-    	$scope.data = [$scope.val1, $scope.val2, $scope.val3];
-    }, true); 
-    
-
+	work.sliderB = {
+	    value: 50,
+	    options: {
+	      floor: 0,
+	      ceil: 100,
+	      id: 'sliderB',
+	      onChange: work.myChangeListener
+	    }
+	};
+	work.sliderC = {
+	    value: 30,
+	    options: {
+	      floor: 0,
+	      ceil: 100,
+	      id: 'sliderC',
+	      onChange: work.myChangeListener
+	    }
+	};  
  	$scope.labels = ['slider 1', 'slider 2', 'slider 3'];
  	function valueChange(value){
  		result = (100 - value)
